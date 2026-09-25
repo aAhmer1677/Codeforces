@@ -1,35 +1,37 @@
 #include <iostream>
-#include <string>
 #include <vector>
+#include <string>
 
 using namespace std;
 
 int main() {
     ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(nullptr);
 
     string s;
     cin >> s;
 
     int n = s.length();
 
-    vector<int> a(n+1, 0);
+    vector<int> dp(n, 0);
 
-    for(int i = 1; i < n; i++) {
-        a[i + 1] = a[i];
-        if (s[i] == s[i-1]) {
-            a[i+1]++;
+    dp[0] = 0;
+    
+    for (int i = 1; i < n; i++) {
+        if (s[i-1] == s[i]) {
+            dp[i] = dp[i-1] + 1;
+        } else {
+            dp[i] = dp[i-1];
         }
     }
-    
+
     int q;
+    int l, r;
     cin >> q;
 
     for (int i = 0; i != q; i++) {
-        int l, r;
         cin >> l >> r;
-
-        cout << (a[r] - a[l]) << "\n";
+        cout << dp[r-1] - dp[l-1] << "\n";
     }
 
     return 0;
